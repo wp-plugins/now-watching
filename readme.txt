@@ -27,6 +27,10 @@ Now Watching comes with premade templates (`/templates/`) that were originally m
 
 My suggestion to those who are having trouble is to open up the respect Now Watching template (such as `library.php`) side-by-side with one of your standard theme templates, and make sure that the markup matches.
 
+= Can I see some blog where this plugin is running? =
+
+Yes, it is running on [my blog](http://www.zackvision.com/movies/ "Procrastination - Movies").
+
 == Screenshots ==
 
 1. Adding a movie
