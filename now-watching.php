@@ -5,7 +5,7 @@ Version: 1.0
 Plugin URI: http://www.zackvision.com/projects/wordpress/now-watching
 Description: Allows you to display the movies you're watching, have watched recently and plan to watch, with cover art fetched automatically from Amazon.
 Author: Zack Ajmal
-Author URI: http://zackvision.com
+Author URI: http://www.zackvision.com
  */
 
 define('NOW_WATCHING_VERSION', '1.0');
@@ -372,7 +372,7 @@ function nw_display() {
  * Adds our details to the title of the page - movie title/director, "Library" etc.
  */
 function nw_page_title( $title ) {
-    global $wp, $wp_query;
+    global $wp, $wp_query, $wpdb;
     $wp->parse_request();
 
     $title = '';
@@ -385,6 +385,18 @@ function nw_page_title( $title ) {
         $title = $movie->title . ' by ' . $movie->director;
     }
 
+	if ( get_query_var('now_watching_director') ) {
+		$director = $wpdb->escape(urldecode(get_query_var('now_watching_director')));
+        $director = $wpdb->get_var("SELECT b_director FROM {$wpdb->prefix}now_watching WHERE b_nice_director = '$director'");
+		$title = 'Movies by ' . $director;
+	}
+	
+	if ( get_query_var('now_watching_title') ) {
+        $esc_nice_title = $wpdb->escape(urldecode(get_query_var('now_watching_title')));
+        $movie = get_movie($wpdb->get_var("SELECT b_id FROM {$wpdb->prefix}now_watching WHERE b_nice_title = '$esc_nice_title'"));
+		$title = $movie->title . ' by ' . $movie->director;
+	}
+
     if ( get_query_var('now_watching_tag') )
         $title = 'Movies tagged with &ldquo;' . htmlentities(get_query_var('now_watching_tag')) . '&rdquo;';
 
@@ -393,7 +405,7 @@ function nw_page_title( $title ) {
 
     if ( !empty($title) ) {
         $title = apply_filters('now_watching_page_title', $title);
-        $separator = apply_filters('now_watching_page_title_separator', ' - ');
+        $separator = apply_filters('now_watching_page_title_separator', ' &raquo; ');
         return $separator.$title;
     }
     return '';
