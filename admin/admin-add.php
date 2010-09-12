@@ -85,7 +85,7 @@ if ( !function_exists('now_watching_add') ) {
                         echo '<div class="error"><p>' . sprintf(__("Sorry, but amazon%s did not return any results for the movie &ldquo;%s&rdquo;", NWTD), $options['domain'], $title) . '</p></div>';
                 } else {
                     if ( $using_asin )
-                        echo '<p>' . sprintf(__("You searched for the ASIN <code>%s<code>. amazon%s returned these results:", NWTD), $asin, $options['domain']) . '</p>';
+                        echo '<p>' . sprintf(__("You searched for the ASIN <code>%s</code>. amazon%s returned these results:", NWTD), $asin, $options['domain']) . '</p>';
                     else
                         echo '<p>' . sprintf(__("You searched for the movie &ldquo;%s&rdquo;. amazon%s returned these results:", NWTD), $title, $options['domain']) . '</p>';
 

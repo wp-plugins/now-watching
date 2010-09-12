@@ -99,7 +99,7 @@ function nw_mod_rewrite( $rules ) {
     add_rewrite_rule(preg_quote($options['permalinkBase']) . 'tag/([^/]+)/?$', 'index.php?now_watching_tag=$matches[1]', 'top');
     add_rewrite_rule(preg_quote($options['permalinkBase']) . 'page/([^/]+)/?$', 'index.php?now_watching_page=$matches[1]', 'top');   
     add_rewrite_rule(preg_quote($options['permalinkBase']) . 'search/?$', 'index.php?now_watching_search=true', 'top');
-    add_rewrite_rule(preg_quote($options['permalinkBase']) . 'watcher/([^/]+)/?$', 'index.php?now_watching_library=1&now_watching_watcher=$matches[1]', 'top');
+    add_rewrite_rule(preg_quote($options['permalinkBase']) . 'watcher/([^/]+)/?$', 'index.php?now_watching_watcher=$matches[1]', 'top');
     add_rewrite_rule(preg_quote($options['permalinkBase']) . '([^/]+)/([^/]+)/?$', 'index.php?now_watching_director=$matches[1]&now_watching_title=$matches[2]', 'top');
     add_rewrite_rule(preg_quote($options['permalinkBase']) . '([^/]+)/?$', 'index.php?now_watching_director=$matches[1]', 'top');
     add_rewrite_rule(preg_quote($options['permalinkBase']) . '?$', 'index.php?now_watching_library=1', 'top');
@@ -120,7 +120,8 @@ function is_now_watching_page() {
         get_query_var('now_watching_tag')     ||
         get_query_var('now_watching_page')    ||        
         get_query_var('now_watching_title')   ||
-        get_query_var('now_watching_director')
+        get_query_var('now_watching_director') ||
+		get_query_var('now_watching_watcher')
     );  
 }
 

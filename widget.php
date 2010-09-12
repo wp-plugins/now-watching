@@ -26,11 +26,11 @@ function nw_widget_control() {
         $options = array('title' => 'Now Watching');
 
     if ( $_POST['nowWatchingSubmit'] ) {
-        $options['title'] = htmlentities(stripslashes($_POST['nowWatchingTitle']));
+        $options['title'] = htmlspecialchars(stripslashes($_POST['nowWatchingTitle']), ENT_QUOTES, 'UTF-8');
         update_option('nowWatchingWidget', $options);
     }
 
-    $title = htmlspecialchars($options['title'], ENT_QUOTES);
+    $title = htmlspecialchars($options['title'], ENT_QUOTES, 'UTF-8');
 
     echo '
 		<p style="text-align:right;">

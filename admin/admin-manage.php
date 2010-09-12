@@ -55,7 +55,7 @@ function nw_manage() {
 		';
     }
 
-    global $action;
+    $action = $_GET['action'];
     nw_reset_vars(array('action'));
 
     switch ( $action ) {
@@ -411,8 +411,7 @@ function nw_manage() {
                 $alt = ( $i % 2 == 0 ) ? ' alternate' : '';
 
                 $delete = get_option('siteurl') . '/wp-content/plugins/now-watching/admin/edit.php?action=delete&id=' . $movie->id;
-                if ( function_exists('wp_nonce_url') )
-                    $delete = wp_nonce_url($delete, 'now-watching-delete-movie_' . $movie->id);
+				$delete = wp_nonce_url($delete, 'now-watching-delete-movie_' .$movie->id);
 
                 echo '
 					<tr class="manage-movie' . $alt . '">

@@ -66,8 +66,8 @@ function movie_watcher( $echo=true ) {
     $user_info = get_userdata($movie->watcher);
 
     if ( $echo )
-        echo $user_info->user_login;
-    return $user_info->user_login;
+        echo $user_info->display_name;
+    return $user_info->display_name;
 
 }
 

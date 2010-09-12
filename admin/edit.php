@@ -11,7 +11,7 @@ $_POST = stripslashes_deep($_POST);
 if ( !current_user_can('publish_posts') )
     die ( __('Cheatin&#8217; uh?') );
 
-global $action;
+$action = $_POST['action'];
 nw_reset_vars(array('action'));
 
 switch ( $action ) {

@@ -1,15 +1,15 @@
 <?php
 /*
 Plugin Name: Now Watching
-Version: 1.0
+Version: 1.1
 Plugin URI: http://www.zackvision.com/projects/wordpress/now-watching
 Description: Allows you to display the movies you're watching, have watched recently and plan to watch, with cover art fetched automatically from Amazon.
 Author: Zack Ajmal
 Author URI: http://www.zackvision.com
  */
 
-define('NOW_WATCHING_VERSION', '1.0');
-define('NOW_WATCHING_DB', 42);
+define('NOW_WATCHING_VERSION', '1.1');
+define('NOW_WATCHING_DB', 50);
 define('NOW_WATCHING_OPTIONS', 10);
 define('NOW_WATCHING_REWRITE', 9);
 
@@ -115,19 +115,19 @@ function nw_install() {
     dbDelta("
 	CREATE TABLE {$wpdb->prefix}now_watching (
 	b_id bigint(20) NOT NULL auto_increment,
-	b_added datetime NOT NULL default '0000-00-00 00:00:00',
-	b_started datetime NOT NULL default '0000-00-00 00:00:00',
-	b_finished datetime NOT NULL default '0000-00-00 00:00:00',
-	b_title VARCHAR(100) NOT NULL default '',
-	b_nice_title VARCHAR(100) NOT NULL default '',
-	b_director VARCHAR(100) NOT NULL default '',
-	b_nice_director VARCHAR(100) NOT NULL default '',
-	b_image text NOT NULL,
-	b_asin varchar(12) NOT NULL default '',
+	b_added datetime,
+	b_started datetime,
+	b_finished datetime,
+	b_title VARCHAR(100) NOT NULL,
+	b_nice_title VARCHAR(100) NOT NULL,
+	b_director VARCHAR(100) NOT NULL,
+	b_nice_director VARCHAR(100) NOT NULL,
+	b_image text,
+	b_asin varchar(12) NOT NULL,
 	b_status VARCHAR(10) NOT NULL default 'watched',
-	b_rating tinyint(4) NOT NULL default '0',
-	b_review text NOT NULL,
-	b_post bigint(20) NOT NULL default '0',
+	b_rating tinyint(4) default '0',
+	b_review text,
+	b_post bigint(20) default '0',
 	b_watcher tinyint(4) NOT NULL default '1',
 	PRIMARY KEY  (b_id),
 	INDEX permalink (b_nice_director, b_nice_title),
@@ -341,6 +341,21 @@ function movielib_init() {
 
         die;
     }
+
+	if ( get_query_var('now_reading_reader') ) {
+        // Reader permalink.
+        $watcher = $wpdb->escape(urldecode(get_query_var('now_watching_watcher')));
+        $GLOBALS['nw_watcher'] = $wpdb->get_var("SELECT b_watcher FROM {$wpdb->prefix}now_watching WHERE b_watcher = '$watcher'");
+
+        if ( empty($GLOBALS['nw_watcher']) )
+            die("Invalid watcher");
+
+        $load = nw_load_template('watcher.php');
+        if ( is_wp_error($load) )
+            echo $load->get_error_message();
+
+        die;
+    }
 }
 add_action('template_redirect', 'movielib_init');
 
@@ -398,7 +413,7 @@ function nw_page_title( $title ) {
 	}
 
     if ( get_query_var('now_watching_tag') )
-        $title = 'Movies tagged with &ldquo;' . htmlentities(get_query_var('now_watching_tag')) . '&rdquo;';
+        $title = 'Movies tagged with &ldquo;' . htmlentities(get_query_var('now_watching_tag'), ENT_QUOTES, 'UTF-8') . '&rdquo;';
 
     if ( get_query_var('now_watching_search') )
         $title = 'Movies Search';

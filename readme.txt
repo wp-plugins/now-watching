@@ -2,8 +2,8 @@
 Contributors: ZackAjmal
 Tags: movies, widget, amazon
 Requires at least: 2.7.0
-Tested up to: 2.8.4
-Stable tag: 1.0
+Tested up to: 3.0.1
+Stable tag: 1.1
 
 Allows you to display the movies you're watching, have watched recently and plan to watch, with cover art fetched automatically from Amazon.
 
@@ -39,6 +39,11 @@ Yes, it is running on [my blog](http://www.zackvision.com/movies/ "Procrastinati
 4. Now Watching Options
 
 == Changelog ==
+
+= 1.1 =
+* Made it compatible with WordPress 3.0 so that movie info can be edited now.
+* Fixed page titles when using permalinks.
+* Allowed UTF-8 characters in widget title.
 
 = 1.0 =
 * First release forked from Now Reading Reloaded 5.1.1.0
